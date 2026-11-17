@@ -53,14 +53,14 @@ let userLogin=async(req,res)=>{
         let {sEmail,sPassword}=req.body;
 
         if(!sEmail || !sPassword){
-            return res.status(400).send({status:0,message:"Email aur password zaroori hain"});
+            return res.status(400).send({status:0,message:"Email and password is necessary "});
         }
 
         let user=await userModel.findOne({email:sEmail.toLowerCase()}).select('+password');
 
         // dono galat cases mein ek hi message, taake hacker ko pata na chale email maujood hai ya nahi
         if(!user || !(await bcrypt.compare(sPassword,user.password))){
-            return res.status(401).send({status:0,message:"Email ya password galat hai"});
+            return res.status(401).send({status:0,message:"Email or password is  wrong"});
         }
 
         res.send({
@@ -75,4 +75,17 @@ let userLogin=async(req,res)=>{
     }
 };
 
-module.exports={userRegister,userLogin};
+// apni profile
+let getMe=async(req,res)=>{
+    res.send({
+        status:1,
+        data:{
+            id:req.user._id,
+            name:req.user.name,
+            email:req.user.email,
+            phone:req.user.phone,
+            role:req.user.role
+        }
+    });
+};
+module.exports={userRegister,userLogin,getMe};

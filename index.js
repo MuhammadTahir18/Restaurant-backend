@@ -3,6 +3,7 @@ let mongoose=require('mongoose');
 let cors=require('cors');
 require('dotenv').config();
 const authRoutes=require('./App/routes/web/authRoutes.js');
+const adminRoutes=require('./App/routes/admin/adminRoutes.js');
 
 let app=express();
 app.use(cors());
@@ -13,6 +14,7 @@ app.get('/health',(req,res)=>{
 });
 
 app.use('/web/api/auth',authRoutes);
+app.use('/admin/api',adminRoutes);
 
 // Mongodb connect
 mongoose.connect(process.env.DB_URI).then(()=>{
