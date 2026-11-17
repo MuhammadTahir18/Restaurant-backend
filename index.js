@@ -1,0 +1,25 @@
+let express=require('express');
+let mongoose=require('mongoose');
+let cors=require('cors');
+require('dotenv').config();
+const authRoutes=require('./App/routes/web/authRoutes.js');
+
+let app=express();
+app.use(cors());
+app.use(express.json());   // routes se PEHLE, warna req.body khali aayegi
+
+app.get('/health',(req,res)=>{
+    res.send({status:1,message:"Server ok"});
+});
+
+app.use('/web/api/auth',authRoutes);
+
+// Mongodb connect
+mongoose.connect(process.env.DB_URI).then(()=>{
+    console.log("Connected to MongoDB");
+    app.listen(process.env.PORT,()=>{
+        console.log("Server is running at "+process.env.PORT+" port");
+    });
+}).catch((err)=>{
+    console.log("MongoDB connect nahi hua:",err.message);
+});
