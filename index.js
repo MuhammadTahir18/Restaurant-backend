@@ -6,6 +6,8 @@ const authRoutes=require('./App/routes/web/authRoutes.js');
 const adminRoutes=require('./App/routes/admin/adminRoutes.js');
 const menuRoutes=require('./App/routes/web/menuRoutes.js');
 const adminMenuRoutes=require('./App/routes/admin/adminMenuRoutes.js');
+const orderRoutes=require('./App/routes/web/orderRoutes.js');
+const adminOrderRoutes=require('./App/routes/admin/adminOrderRoutes.js');
 
 let app=express();
 app.use(cors());
@@ -20,6 +22,8 @@ app.use('/admin/api',adminRoutes);
 app.use('/web/api/menu',menuRoutes);
 app.use('/admin/api/menu',adminMenuRoutes);
 app.use('/admin/api',adminRoutes); 
+app.use('/web/api/orders',orderRoutes);
+app.use('/admin/api/orders',adminOrderRoutes);
 
 // Mongodb connect
 mongoose.connect(process.env.DB_URI).then(()=>{
